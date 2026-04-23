@@ -27,8 +27,7 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Push only frontend (Ignore other folders as requested)
-backend/
+# Targeted Ignores (Remove folders as they are ready for push)
 database/
 docs/
 scripts/
