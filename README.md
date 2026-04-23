@@ -711,20 +711,6 @@ animal-rescue-platform/
 │   ├── .env.example
 │   └── package.json
 │
-├── 📁 database/                      # Database Scripts
-│   ├── seed.js                       # Sample data
-│   └── schema.sql                    # MongoDB schema docs
-│
-├── 📁 docs/                          # Documentation
-│   ├── API.md                        # API endpoints
-│   ├── SETUP.md                      # Setup guide
-│   ├── DEPLOYMENT.md                 # Deployment guide
-│   └── CONTRIBUTING.md               # Contribution guide
-│
-├── 📁 scripts/                       # Utility Scripts
-│   ├── start-dev.sh                  # Dev environment
-│   └── deploy.sh                     # Deployment script
-│
 ├── .gitignore
 ├── .env.example
 ├── LICENSE
