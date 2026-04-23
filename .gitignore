@@ -27,7 +27,4 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Targeted Ignores (Remove folders as they are ready for push)
-database/
-docs/
-scripts/
+# All core folders are now tracked
