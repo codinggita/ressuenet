@@ -664,50 +664,52 @@ animal-rescue-platform/
 │   └── tailwind.config.js
 │
 ├── 📁 backend/                       # Node.js Server
-│   ├── 📁 config/
-│   │   ├── database.js               # MongoDB connection
-│   │   ├── cloudinary.js             # Image upload config
-│   │   └── passport.js               # Auth strategies
-│   │
-│   ├── 📁 controllers/               # Route Handlers
-│   │   ├── rescueController.js
-│   │   ├── adoptionController.js
-│   │   ├── storyController.js
-│   │   ├── donationController.js
-│   │   └── authController.js
-│   │
-│   ├── 📁 models/                    # Mongoose Schemas
-│   │   ├── RescueService.js
-│   │   ├── Pet.js
-│   │   ├── Story.js
-│   │   ├── Article.js
-│   │   ├── Donation.js
-│   │   ├── Volunteer.js
-│   │   ├── NGO.js
-│   │   └── User.js
-│   │
-│   ├── 📁 routes/                    # API Endpoints
-│   │   ├── rescueRoutes.js
-│   │   ├── adoptionRoutes.js
-│   │   ├── storyRoutes.js
-│   │   ├── articleRoutes.js
-│   │   ├── donationRoutes.js
-│   │   └── authRoutes.js
-│   │
-│   ├── 📁 middleware/
-│   │   ├── auth.js                   # JWT verification
-│   │   ├── errorHandler.js
-│   │   ├── validator.js
-│   │   └── upload.js                 # Multer config
-│   │
-│   ├── 📁 utils/
-│   │   ├── geocoding.js              # Lat/Long conversion
-│   │   ├── email.js                  # Email templates
-│   │   └── logger.js
+│   ├── 📁 src/
+│   │   ├── 📁 config/
+│   │   │   ├── database.js               # MongoDB connection
+│   │   │   ├── cloudinary.js             # Image upload config
+│   │   │   └── passport.js               # Auth strategies
+│   │   │
+│   │   ├── 📁 controllers/               # Route Handlers
+│   │   │   ├── rescueController.js
+│   │   │   ├── adoptionController.js
+│   │   │   ├── storyController.js
+│   │   │   ├── donationController.js
+│   │   │   └── authController.js
+│   │   │
+│   │   ├── 📁 models/                    # Mongoose Schemas
+│   │   │   ├── RescueService.js
+│   │   │   ├── Pet.js
+│   │   │   ├── Story.js
+│   │   │   ├── Article.js
+│   │   │   ├── Donation.js
+│   │   │   ├── Volunteer.js
+│   │   │   ├── NGO.js
+│   │   │   └── User.js
+│   │   │
+│   │   ├── 📁 routes/                    # API Endpoints
+│   │   │   ├── rescueRoutes.js
+│   │   │   ├── adoptionRoutes.js
+│   │   │   ├── storyRoutes.js
+│   │   │   ├── articleRoutes.js
+│   │   │   ├── donationRoutes.js
+│   │   │   └── authRoutes.js
+│   │   │
+│   │   ├── 📁 middleware/
+│   │   │   ├── auth.js                   # JWT verification
+│   │   │   ├── errorHandler.js
+│   │   │   ├── validator.js
+│   │   │   └── upload.js                 # Multer config
+│   │   │
+│   │   ├── 📁 utils/
+│   │   │   ├── geocoding.js              # Lat/Long conversion
+│   │   │   ├── email.js                  # Email templates
+│   │   │   └── logger.js
+│   │   │
+│   │   └── server.js                     # Express server
 │   │
 │   ├── .env.example
-│   ├── package.json
-│   └── server.js                     # Express server
+│   └── package.json
 │
 ├── 📁 database/                      # Database Scripts
 │   ├── seed.js                       # Sample data
