@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --rescue-green: #2ECC71;
+  --trust-blue: #3498DB;
+  --emergency-red: #FF6B6B;
+  --bg-light: #F9FAFB;
+  --text-dark: #1F2937;
+  --gray-medium: #6B7280;
+}
+
+body {
+  @apply bg-[var(--bg-light)] text-[var(--text-dark)] font-sans;
+}
