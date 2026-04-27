@@ -811,8 +811,8 @@ VITE_MAPTILER_API_KEY=your_maptiler_key
 #### 4️⃣ Database Seeding (Optional)
 
 ```bash
-cd ../database
-node seed.js
+cd backend
+node database/seed.js
 ```
 
 #### 5️⃣ Run Development Servers
