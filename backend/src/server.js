@@ -1,32 +1,21 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const morgan = require('morgan');
 require('dotenv').config();
 
-const app = express();
+const app = require('./app');
+const connectDatabase = require('./config/database');
+const { scheduleMaintenanceJobs } = require('./utils/scheduler');
 
-// Middleware
-app.use(cors());
-app.use(express.json());
-app.use(morgan('dev'));
+const PORT = Number(process.env.PORT) || 5000;
 
-// Basic Route
-app.get('/', (req, res) => {
-  res.json({ message: 'Animal Rescue Platform API' });
-});
+async function startServer() {
+  await connectDatabase();
+  scheduleMaintenanceJobs();
 
-// Database Connection
-const PORT = process.env.PORT || 5000;
-const MONGODB_URI = process.env.MONGODB_URI;
-
-mongoose.connect(MONGODB_URI)
-  .then(() => {
-    console.log('Connected to MongoDB');
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-  })
-  .catch(err => {
-    console.error('Database connection error:', err);
+  app.listen(PORT, () => {
+    console.log(`RescueNet backend listening on port ${PORT}`);
   });
+}
+
+startServer().catch((error) => {
+  console.error('Failed to start server:', error.message);
+  process.exit(1);
+});
