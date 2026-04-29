@@ -187,6 +187,7 @@ function Layout() {
 export default function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Layout />
     </Router>
   );

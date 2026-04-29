@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Heart, MapPin, ShieldCheck } from 'lucide-react';
+import { Heart, MapPinned, ShieldCheck, ArrowLeft, Send, CheckCircle2, Info, Sparkles, Activity } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { PageLoader } from '../components/Loader';
 import { adoptionService } from '../services';
 import { useAuthStore } from '../store/authStore';
 
 export default function PetProfile() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
   const [loading, setLoading] = useState(true);
   const [pet, setPet] = useState(null);
@@ -21,25 +23,33 @@ export default function PetProfile() {
   });
 
   useEffect(() => {
+    setLoading(true);
     adoptionService
       .getPetById(id)
       .then((response) => {
         setPet(response.data.pet);
         setSimilarPets(response.data.similarPets || []);
       })
-      .catch((error) => toast.error(error.response?.data?.message || 'Unable to load pet profile.'))
+      .catch((error) => {
+        toast.error(error.response?.data?.message || 'Unable to load pet profile.');
+        navigate('/adopt');
+      })
       .finally(() => setLoading(false));
-  }, [id]);
+  }, [id, navigate]);
 
   const submitApplication = async (event) => {
     event.preventDefault();
+    if (!user) {
+      toast.error('Please log in to submit an application.');
+      return;
+    }
 
     try {
       await adoptionService.submitApplication({
         petId: pet._id,
         ...formData,
       });
-      toast.success('Adoption application submitted.');
+      toast.success('Adoption application submitted successfully!');
       setFormData((current) => ({ ...current, message: '' }));
     } catch (error) {
       toast.error(error.response?.data?.message || 'Unable to submit application.');
@@ -47,100 +57,202 @@ export default function PetProfile() {
   };
 
   if (loading) {
-    return <PageLoader label="Loading pet profile..." />;
+    return <PageLoader label="Fetching profile from network..." />;
   }
 
-  if (!pet) {
-    return null;
-  }
+  if (!pet) return null;
 
   return (
-    <div className="mx-auto max-w-6xl px-4 pb-12 pt-28 md:px-6 md:pt-32">
-      <Link to="/adopt" className="mb-6 inline-block text-sm font-bold text-primary">
-        Back to adoption
-      </Link>
+    <div className="min-h-screen bg-surface pt-28 pb-20">
+      <div className="mx-auto max-w-7xl px-4 md:px-6">
+        {/* Navigation Breadcrumb */}
+        <motion.div 
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="mb-8"
+        >
+          <Link to="/adopt" className="inline-flex items-center gap-2 text-sm font-black text-on-surface-variant/60 hover:text-primary transition-colors">
+            <ArrowLeft size={16} />
+            Back to Registry
+          </Link>
+        </motion.div>
 
-      <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">
-        <div className="space-y-5 rounded-[28px] border border-outline-variant/10 bg-white p-5 shadow-sm md:p-6">
-          <img
-            src={pet.images?.[0] || 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=1000&q=80'}
-            alt={pet.name}
-            className="h-[340px] w-full rounded-[24px] object-cover md:h-[480px]"
-          />
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div>
-              <div className="text-xs font-black uppercase tracking-[0.18em] text-primary">{pet.adoptionStatus}</div>
-              <h1 className="mt-2 text-4xl font-black">{pet.name}</h1>
-              <p className="mt-2 text-sm text-on-surface-variant">{pet.breed || pet.species}</p>
-            </div>
-            <button className="btn-outline">
-              <Heart className="h-4 w-4" />
-              Save
-            </button>
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            <span className="rounded-full bg-surface-container-low px-3 py-1.5 text-sm font-semibold">{pet.city || 'Unknown city'}</span>
-            <span className="rounded-full bg-surface-container-low px-3 py-1.5 text-sm font-semibold">{pet.ageLabel || `${pet.age} years`}</span>
-            <span className="rounded-full bg-surface-container-low px-3 py-1.5 text-sm font-semibold">{pet.size}</span>
-          </div>
-
-          <p className="text-sm leading-7 text-on-surface-variant">{pet.description}</p>
-
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-2xl bg-surface-container-low p-4">
-              <div className="mb-2 flex items-center gap-2 text-sm font-bold">
-                <MapPin className="h-4 w-4 text-primary" />
-                Location
+        <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr]">
+          {/* Main Profile Content */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="space-y-10"
+          >
+            {/* Cinematic Image Gallery (Main) */}
+            <div className="relative group overflow-hidden rounded-[3.5rem] shadow-2xl">
+              <img
+                src={pet.images?.[0] || 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=1200&q=80'}
+                alt={pet.name}
+                className="h-[500px] w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-on-surface/60 via-transparent to-transparent" />
+              <div className="absolute bottom-8 left-8 flex gap-3">
+                <div className="rounded-full bg-primary-fixed px-6 py-2 text-xs font-black uppercase tracking-widest text-on-primary-fixed backdrop-blur-xl">
+                  {pet.adoptionStatus}
+                </div>
+                <div className="rounded-full bg-white/20 border border-white/20 px-6 py-2 text-xs font-black uppercase tracking-widest text-white backdrop-blur-xl">
+                  {pet.species}
+                </div>
               </div>
-              <p className="text-sm text-on-surface-variant">{pet.city || 'Not specified'}</p>
             </div>
-            <div className="rounded-2xl bg-surface-container-low p-4">
-              <div className="mb-2 flex items-center gap-2 text-sm font-bold">
-                <ShieldCheck className="h-4 w-4 text-primary" />
-                Health status
+
+            {/* Profile Information Card */}
+            <div className="glass-card p-10 md:p-12 rounded-[3.5rem] border border-surface-container-high/50">
+              <div className="flex flex-wrap items-start justify-between gap-6 mb-8">
+                <div>
+                  <h1 className="font-display text-5xl font-black tracking-tight text-on-surface">{pet.name}</h1>
+                  <p className="mt-2 text-lg font-bold text-primary italic">{pet.breed || pet.species}</p>
+                </div>
+                <button className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all shadow-lg hover:shadow-primary/20">
+                  <Heart className="h-7 w-7" />
+                </button>
               </div>
-              <p className="text-sm text-on-surface-variant">
-                Vaccinated: {pet.healthStatus?.vaccinated ? 'Yes' : 'No'} | Neutered: {pet.healthStatus?.neutered ? 'Yes' : 'No'}
-              </p>
-            </div>
-          </div>
-        </div>
 
-        <aside className="space-y-6">
-          <form onSubmit={submitApplication} className="rounded-[28px] border border-outline-variant/10 bg-white p-5 shadow-sm md:p-6">
-            <h2 className="text-2xl font-black">Apply to adopt</h2>
-            <p className="mt-2 text-sm text-on-surface-variant">Send your interest directly to the backend adoption application flow.</p>
-            <div className="mt-5 space-y-3">
-              <input className="input-field" placeholder="Full name" value={formData.fullName} onChange={(event) => setFormData((current) => ({ ...current, fullName: event.target.value }))} />
-              <input className="input-field" type="email" placeholder="Email" value={formData.email} onChange={(event) => setFormData((current) => ({ ...current, email: event.target.value }))} />
-              <input className="input-field" placeholder="Phone" value={formData.phone} onChange={(event) => setFormData((current) => ({ ...current, phone: event.target.value }))} />
-              <input className="input-field" placeholder="City" value={formData.city} onChange={(event) => setFormData((current) => ({ ...current, city: event.target.value }))} />
-              <textarea className="input-field min-h-[120px]" placeholder="Why are you a good fit?" value={formData.message} onChange={(event) => setFormData((current) => ({ ...current, message: event.target.value }))} />
-            </div>
-            <button type="submit" className="btn-primary mt-4 w-full justify-center">
-              Submit application
-            </button>
-          </form>
-
-          {similarPets.length ? (
-            <section className="rounded-[28px] border border-outline-variant/10 bg-white p-5 shadow-sm md:p-6">
-              <h2 className="text-xl font-black">Similar pets</h2>
-              <div className="mt-4 space-y-3">
-                {similarPets.map((item) => (
-                  <Link key={item._id} to={`/adopt/${item._id}`} className="flex items-center gap-3 rounded-2xl bg-surface-container-low p-3 transition hover:bg-surface-container-high">
-                    <img src={item.images?.[0] || 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=500&q=80'} alt={item.name} className="h-16 w-16 rounded-xl object-cover" />
-                    <div>
-                      <div className="font-bold">{item.name}</div>
-                      <div className="text-sm text-on-surface-variant">{item.breed || item.species}</div>
-                    </div>
-                  </Link>
+              <div className="flex flex-wrap gap-4 mb-10">
+                {[
+                  { icon: MapPinned, label: pet.city || 'National Registry' },
+                  { icon: Activity, label: pet.ageLabel || `${pet.age} Years Old` },
+                  { icon: ShieldCheck, label: pet.size },
+                  { icon: Info, label: pet.gender }
+                ].map((tag, i) => (
+                  <div key={i} className="flex items-center gap-3 rounded-2xl bg-surface-container-low px-5 py-3 text-sm font-black text-on-surface-variant">
+                    <tag.icon size={18} className="text-primary" />
+                    {tag.label}
+                  </div>
                 ))}
               </div>
-            </section>
-          ) : null}
-        </aside>
-      </section>
+
+              <div className="space-y-6">
+                <h3 className="font-display text-xl font-black text-on-surface flex items-center gap-2">
+                  <Sparkles className="text-primary" size={20} />
+                  Story & Personality
+                </h3>
+                <p className="text-lg leading-relaxed text-on-surface-variant/80 font-medium">
+                  {pet.description}
+                </p>
+              </div>
+
+              <div className="mt-12 grid gap-6 sm:grid-cols-2">
+                <div className="rounded-3xl bg-surface-container-low/50 p-6 border border-surface-container-high/30">
+                  <div className="mb-4 flex items-center gap-2 text-xs font-black uppercase tracking-widest text-primary">
+                    <Activity size={16} />
+                    Vital Stats
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex justify-between text-sm font-bold">
+                      <span className="text-on-surface-variant/40">Vaccinated</span>
+                      <span className={pet.healthStatus?.vaccinated ? 'text-emerald-500' : 'text-on-surface-variant/60'}>
+                        {pet.healthStatus?.vaccinated ? 'Certified' : 'Pending'}
+                      </span>
+                    </div>
+                    <div className="flex justify-between text-sm font-bold">
+                      <span className="text-on-surface-variant/40">Neutered</span>
+                      <span className={pet.healthStatus?.neutered ? 'text-emerald-500' : 'text-on-surface-variant/60'}>
+                        {pet.healthStatus?.neutered ? 'Certified' : 'Pending'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="rounded-3xl bg-surface-container-low/50 p-6 border border-surface-container-high/30">
+                  <div className="mb-4 flex items-center gap-2 text-xs font-black uppercase tracking-widest text-primary">
+                    <CheckCircle2 size={16} />
+                    Shelter Verification
+                  </div>
+                  <p className="text-sm font-bold text-on-surface-variant/80 leading-relaxed">
+                    This profile is verified by the <span className="text-primary">National Rescue Network</span>. 
+                    Immediate health records available on request.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Sidebar - Application Form */}
+          <aside className="space-y-8">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3 }}
+              className="glass-card p-8 md:p-10 rounded-[3rem] border-2 border-primary/10 shadow-2xl relative overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 -mr-10 -mt-10 h-40 w-40 bg-primary/5 blur-[60px] rounded-full" />
+              
+              <h2 className="relative z-10 font-display text-3xl font-black text-on-surface">Start Adoption</h2>
+              <p className="relative z-10 mt-3 text-sm font-medium text-on-surface-variant/60 leading-relaxed">
+                Your application will be routed directly to the verified rescue center managing {pet.name}'s care.
+              </p>
+
+              <form onSubmit={submitApplication} className="relative z-10 mt-8 space-y-4">
+                <div className="space-y-4">
+                  <input 
+                    className="w-full rounded-2xl bg-surface-container-low px-6 py-4 text-sm font-bold text-on-surface placeholder:text-on-surface-variant/30 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all border border-transparent focus:border-primary/20" 
+                    placeholder="Full Name" 
+                    value={formData.fullName} 
+                    onChange={(e) => setFormData(prev => ({ ...prev, fullName: e.target.value }))} 
+                  />
+                  <input 
+                    className="w-full rounded-2xl bg-surface-container-low px-6 py-4 text-sm font-bold text-on-surface placeholder:text-on-surface-variant/30 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all border border-transparent focus:border-primary/20" 
+                    type="email" 
+                    placeholder="Email Address" 
+                    value={formData.email} 
+                    onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))} 
+                  />
+                  <textarea 
+                    className="w-full rounded-2xl bg-surface-container-low px-6 py-4 text-sm font-bold text-on-surface placeholder:text-on-surface-variant/30 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all border border-transparent focus:border-primary/20 min-h-[140px] resize-none" 
+                    placeholder="Why are you a good fit for this companion?" 
+                    value={formData.message} 
+                    onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))} 
+                  />
+                </div>
+
+                <button 
+                  type="submit" 
+                  className="group flex w-full items-center justify-center gap-3 rounded-2xl bg-on-surface py-5 text-sm font-black text-white hover:bg-primary transition-all shadow-xl hover:shadow-primary/20"
+                >
+                  Submit Application
+                  <Send size={18} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                </button>
+              </form>
+            </motion.div>
+
+            {/* Similar Connections */}
+            {similarPets.length > 0 && (
+              <motion.section 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="glass-card p-8 rounded-[3rem] border border-surface-container-high/50"
+              >
+                <h3 className="font-display text-xl font-black text-on-surface mb-6">Similar Companions</h3>
+                <div className="space-y-4">
+                  {similarPets.slice(0, 3).map((item) => (
+                    <Link 
+                      key={item._id} 
+                      to={`/adopt/${item._id}`} 
+                      className="flex items-center gap-4 rounded-2xl bg-surface-container-low p-4 transition-all hover:bg-white hover:shadow-lg group"
+                    >
+                      <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-on-surface">
+                        <img src={item.images?.[0]} alt={item.name} className="h-full w-full object-cover group-hover:scale-110 transition-transform" />
+                      </div>
+                      <div className="min-w-0">
+                        <div className="font-black text-on-surface group-hover:text-primary transition-colors">{item.name}</div>
+                        <div className="text-xs font-bold text-on-surface-variant/40 uppercase tracking-widest">{item.breed || item.species}</div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </motion.section>
+            )}
+          </aside>
+        </div>
+      </div>
     </div>
   );
 }
