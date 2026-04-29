@@ -32,6 +32,8 @@ const configuredOrigins = [
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:3000',
+  'https://rescue-plus.vercel.app',
+  'https://frontend-bice-theta-73.vercel.app',
   ...configuredOrigins,
 ].filter(Boolean);
 
