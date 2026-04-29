@@ -27,7 +27,7 @@
 @layer components {
   /* Premium Glassmorphism Card */
   .glass-card {
-    @apply bg-white/70 backdrop-blur-md border border-white/40 shadow-glass rounded-3xl transition-all duration-300;
+    @apply bg-white/85 backdrop-blur-md border border-white shadow-glass rounded-3xl transition-all duration-300;
   }
   
   .glass-card:hover {
@@ -36,7 +36,7 @@
 
   /* Deep Dark Glass for overlays or dark sections */
   .glass-dark {
-    @apply bg-on-surface/90 backdrop-blur-lg border border-white/10 shadow-xl rounded-3xl text-white;
+    @apply bg-on-surface/80 backdrop-blur-xl border border-white/10 shadow-2xl rounded-[2.5rem] text-white;
   }
 
   /* Primary Button - Following MD3 Style */
