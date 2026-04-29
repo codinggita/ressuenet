@@ -5,6 +5,9 @@ import Navbar from './components/Navbar';
 import BottomNav from './components/BottomNav';
 import { PageLoader } from './components/Loader';
 import { useAuthStore } from './store/authStore';
+import ScrollToTop from './components/ScrollToTop';
+import ProtectedRoute from './components/ProtectedRoute';
+import RedirectIfAuth from './components/RedirectIfAuth';
 
 const Home = lazy(() => import('./pages/Home'));
 const Login = lazy(() => import('./pages/Login'));
@@ -40,19 +43,19 @@ function Layout() {
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/report" element={<Report />} />
+            <Route path="/login" element={<RedirectIfAuth><Login /></RedirectIfAuth>} />
+            <Route path="/register" element={<RedirectIfAuth><Register /></RedirectIfAuth>} />
+            <Route path="/report" element={<ProtectedRoute><Report /></ProtectedRoute>} />
             <Route path="/adopt" element={<Adopt />} />
             <Route path="/adopt/:id" element={<PetProfile />} />
             <Route path="/map" element={<RescueMap />} />
             <Route path="/about" element={<About />} />
             <Route path="/nearby" element={<NearbyHelp />} />
             <Route path="/nearby-help" element={<NearbyHelp />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/donate" element={<Donation />} />
+            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+            <Route path="/donate" element={<ProtectedRoute><Donation /></ProtectedRoute>} />
             <Route path="/stories" element={<Stories />} />
-            <Route path="/volunteer" element={<Volunteer />} />
+            <Route path="/volunteer" element={<ProtectedRoute><Volunteer /></ProtectedRoute>} />
             <Route path="/education" element={<Education />} />
           </Routes>
         </Suspense>
@@ -66,6 +69,7 @@ function Layout() {
 export default function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Layout />
     </Router>
   );
