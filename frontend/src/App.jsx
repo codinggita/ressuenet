@@ -8,6 +8,7 @@ import { useAuthStore } from './store/authStore';
 import ScrollToTop from './components/ScrollToTop';
 import ProtectedRoute from './components/ProtectedRoute';
 import RedirectIfAuth from './components/RedirectIfAuth';
+import SEO from './components/SEO';
 
 const Home = lazy(() => import('./pages/Home'));
 const Login = lazy(() => import('./pages/Login'));
@@ -23,6 +24,126 @@ const Donation = lazy(() => import('./pages/Donation'));
 const Stories = lazy(() => import('./pages/Stories'));
 const Volunteer = lazy(() => import('./pages/Volunteer'));
 const Education = lazy(() => import('./pages/Education'));
+
+const siteUrl = 'https://rescue-plus.vercel.app';
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'RescueNet',
+  url: siteUrl,
+  logo: `${siteUrl}/favicon.svg`,
+  sameAs: [siteUrl],
+};
+
+const routeSeo = {
+  home: {
+    title: 'RescueNet | Rapid Animal Emergency Network',
+    description:
+      'Report animal emergencies, find nearby rescue help, adopt pets, donate, and volunteer through RescueNet.',
+    path: '/',
+    schema: {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'RescueNet',
+      url: siteUrl,
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: `${siteUrl}/adopt?search={search_term_string}`,
+        'query-input': 'required name=search_term_string',
+      },
+    },
+  },
+  login: {
+    title: 'Login | RescueNet',
+    description: 'Log in to your RescueNet account to manage rescue reports, donations, volunteering, and adoption activity.',
+    path: '/login',
+    noIndex: true,
+  },
+  register: {
+    title: 'Create an Account | RescueNet',
+    description: 'Create a RescueNet account to report emergencies, volunteer, donate, and support animal rescue work.',
+    path: '/register',
+    noIndex: true,
+  },
+  report: {
+    title: 'Report an Animal Emergency | RescueNet',
+    description:
+      'Submit animal rescue incidents with location and details so nearby responders and rescue organizations can coordinate faster.',
+    path: '/report',
+  },
+  adopt: {
+    title: 'Adopt Rescue Pets | RescueNet',
+    description:
+      'Browse available rescue pets and connect with adoption opportunities through verified animal welfare partners.',
+    path: '/adopt',
+  },
+  petProfile: {
+    title: 'Pet Profile | RescueNet Adoption',
+    description:
+      'View rescue pet details, health information, adoption readiness, and next steps for giving a pet a safe home.',
+    path: '/adopt',
+  },
+  map: {
+    title: 'Animal Rescue Map | RescueNet',
+    description:
+      'Explore nearby rescue centers, shelters, and emergency animal support services on the RescueNet map.',
+    path: '/map',
+  },
+  about: {
+    title: 'About RescueNet | Animal Rescue Platform',
+    description:
+      'Learn how RescueNet supports animal rescue teams, shelters, volunteers, adopters, and donors with coordinated emergency response.',
+    path: '/about',
+    schema: organizationSchema,
+  },
+  nearbyHelp: {
+    title: 'Nearby Animal Help | RescueNet',
+    description:
+      'Find nearby animal rescue centers, emergency contacts, shelters, and volunteer support based on your location.',
+    path: '/nearby-help',
+  },
+  dashboard: {
+    title: 'Rescue Dashboard | RescueNet',
+    description:
+      'Track animal rescue reports, emergency response activity, adoption insights, donations, and community impact.',
+    path: '/dashboard',
+    noIndex: true,
+  },
+  donate: {
+    title: 'Donate to Animal Rescue | RescueNet',
+    description:
+      'Support animal rescue operations, medical care, shelter resources, and emergency response through RescueNet donations.',
+    path: '/donate',
+  },
+  stories: {
+    title: 'Animal Rescue Stories | RescueNet',
+    description:
+      'Read rescue stories, adoption journeys, and community impact updates from the RescueNet animal welfare network.',
+    path: '/stories',
+  },
+  volunteer: {
+    title: 'Volunteer for Animal Rescue | RescueNet',
+    description:
+      'Discover volunteer opportunities for rescue response, shelter support, foster care, awareness, and community outreach.',
+    path: '/volunteer',
+  },
+  education: {
+    title: 'Animal Welfare Education | RescueNet',
+    description:
+      'Learn practical animal welfare, emergency rescue, first aid, adoption, and community care guidance from RescueNet.',
+    path: '/education',
+  },
+};
+
+function Page({ seo, children }) {
+  return (
+    <>
+      <SEO {...seo} />
+      {children}
+    </>
+  );
+}
 
 function Layout() {
   const bootstrap = useAuthStore((state) => state.bootstrap);
@@ -42,21 +163,21 @@ function Layout() {
       <main className="flex-1 pb-20 lg:pb-0">
         <Suspense fallback={<PageLoader />}>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<RedirectIfAuth><Login /></RedirectIfAuth>} />
-            <Route path="/register" element={<RedirectIfAuth><Register /></RedirectIfAuth>} />
-            <Route path="/report" element={<ProtectedRoute><Report /></ProtectedRoute>} />
-            <Route path="/adopt" element={<Adopt />} />
-            <Route path="/adopt/:id" element={<PetProfile />} />
-            <Route path="/map" element={<RescueMap />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/nearby" element={<NearbyHelp />} />
-            <Route path="/nearby-help" element={<NearbyHelp />} />
-            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-            <Route path="/donate" element={<ProtectedRoute><Donation /></ProtectedRoute>} />
-            <Route path="/stories" element={<Stories />} />
-            <Route path="/volunteer" element={<ProtectedRoute><Volunteer /></ProtectedRoute>} />
-            <Route path="/education" element={<Education />} />
+            <Route path="/" element={<Page seo={routeSeo.home}><Home /></Page>} />
+            <Route path="/login" element={<Page seo={routeSeo.login}><RedirectIfAuth><Login /></RedirectIfAuth></Page>} />
+            <Route path="/register" element={<Page seo={routeSeo.register}><RedirectIfAuth><Register /></RedirectIfAuth></Page>} />
+            <Route path="/report" element={<Page seo={routeSeo.report}><ProtectedRoute><Report /></ProtectedRoute></Page>} />
+            <Route path="/adopt" element={<Page seo={routeSeo.adopt}><Adopt /></Page>} />
+            <Route path="/adopt/:id" element={<Page seo={routeSeo.petProfile}><PetProfile /></Page>} />
+            <Route path="/map" element={<Page seo={routeSeo.map}><RescueMap /></Page>} />
+            <Route path="/about" element={<Page seo={routeSeo.about}><About /></Page>} />
+            <Route path="/nearby" element={<Page seo={routeSeo.nearbyHelp}><NearbyHelp /></Page>} />
+            <Route path="/nearby-help" element={<Page seo={routeSeo.nearbyHelp}><NearbyHelp /></Page>} />
+            <Route path="/dashboard" element={<Page seo={routeSeo.dashboard}><ProtectedRoute><Dashboard /></ProtectedRoute></Page>} />
+            <Route path="/donate" element={<Page seo={routeSeo.donate}><ProtectedRoute><Donation /></ProtectedRoute></Page>} />
+            <Route path="/stories" element={<Page seo={routeSeo.stories}><Stories /></Page>} />
+            <Route path="/volunteer" element={<Page seo={routeSeo.volunteer}><ProtectedRoute><Volunteer /></ProtectedRoute></Page>} />
+            <Route path="/education" element={<Page seo={routeSeo.education}><Education /></Page>} />
           </Routes>
         </Suspense>
       </main>
