@@ -32,6 +32,18 @@
 
 The **Animal Rescue Platform** is a comprehensive full-stack web application designed to bridge the critical gap between compassionate citizens and animal rescue services. Built using modern web technologies and following NGO design best practices, this platform creates a unified ecosystem for emergency response, pet adoption, community engagement, and animal welfare education.
 
+## Live Links
+
+- Frontend: https://rescue-plus.vercel.app
+- Backend: https://rescuenet-backend-02ao.onrender.com
+- Backend health check: https://rescuenet-backend-02ao.onrender.com/api/test/ping
+
+## Design Links
+
+- Figma design file: https://www.figma.com/design/WGDkIwH7DQfwFG1JGMb2Kj/Untitled?node-id=0-1&t=zQXciC2pOC9LqFHR-1
+- Figma prototype: https://www.figma.com/proto/WGDkIwH7DQfwFG1JGMb2Kj/Untitled?node-id=309-4&viewport=-163%2C77%2C0.02&t=6tiWHPTIq7kQ7Pk4-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=309%3A4&page-id=0%3A1
+
+
 ### 🌟 What Makes This Special?
 
 - **🚑 GPS-based Smart Rescue System** — Real-time location detection with instant routing

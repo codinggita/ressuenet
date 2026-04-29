@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: rescuenet-backend
+    runtime: node
+    plan: free
+    branch: main
+    autoDeploy: true
+    buildCommand: cd backend && npm ci
+    startCommand: cd backend && npm start
+    healthCheckPath: /api/test/ping
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: FRONTEND_URL
+        value: https://rescue-plus.vercel.app
+      - key: FRONTEND_URLS
+        value: https://rescue-plus.vercel.app,https://frontend-bice-theta-73.vercel.app
+      - key: JWT_EXPIRE
+        value: 7d
+      - key: DISABLE_CRON
+        value: "false"
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: RAZORPAY_KEY_ID
+        sync: false
+      - key: RAZORPAY_KEY_SECRET
+        sync: false
+      - key: MAPTILER_API_KEY
+        sync: false
+      - key: GOOGLE_PLACES_API_KEY
+        sync: false
