@@ -32,16 +32,24 @@
 
 The **Animal Rescue Platform** is a comprehensive full-stack web application designed to bridge the critical gap between compassionate citizens and animal rescue services. Built using modern web technologies and following NGO design best practices, this platform creates a unified ecosystem for emergency response, pet adoption, community engagement, and animal welfare education.
 
-## Live Links
+## 🔗 Important Links
 
-- Frontend: https://rescue-plus.vercel.app
-- Backend: https://rescuenet-backend-02ao.onrender.com
-- Backend health check: https://rescuenet-backend-02ao.onrender.com/api/test/ping
+- **Live Deployed Project:** [https://rescue-plus.vercel.app](https://rescue-plus.vercel.app)
+- **Postman Documentation:** [https://documenter.getpostman.com/view/50839172/2sBXqKoL8b](https://documenter.getpostman.com/view/50839172/2sBXqKoL8b)
+- **Backend Deployed Link:** [https://rescuenet-backend-02ao.onrender.com](https://rescuenet-backend-02ao.onrender.com)
+- **YouTube Demo:** [https://www.youtube.com/watch?v=-OHl1ejRTmE](https://www.youtube.com/watch?v=-OHl1ejRTmE)
+- **Figma Design:** [View Design](https://www.figma.com/design/WGDkIwH7DQfwFG1JGMb2Kj/Untitled?node-id=0-1&t=zQXciC2pOC9LqFHR-1)
+- **Figma Prototype:** [View Prototype](https://www.figma.com/proto/WGDkIwH7DQfwFG1JGMb2Kj/Untitled?node-id=309-4&viewport=-163%2C77%2C0.02&t=6tiWHPTIq7kQ7Pk4-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=309%3A4&page-id=0%3A1)
 
-## Design Links
+## 📸 Project Screenshots
 
-- Figma design file: https://www.figma.com/design/WGDkIwH7DQfwFG1JGMb2Kj/Untitled?node-id=0-1&t=zQXciC2pOC9LqFHR-1
-- Figma prototype: https://www.figma.com/proto/WGDkIwH7DQfwFG1JGMb2Kj/Untitled?node-id=309-4&viewport=-163%2C77%2C0.02&t=6tiWHPTIq7kQ7Pk4-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=309%3A4&page-id=0%3A1
+| Homepage & Mission | Live Operations Stream |
+| :---: | :---: |
+| <img src="https://res.cloudinary.com/dyp6zbyjd/image/upload/v1777722143/Screenshot_2026-05-02_165152_ydjwx8.png" width="400" alt="Homepage Hero Section"/> | <img src="https://res.cloudinary.com/dyp6zbyjd/image/upload/v1777722143/Screenshot_2026-05-02_165324_b1yzcg.png" width="400" alt="Live Operations Stream"/> |
+| **Global Operations Grid** | **Public Utility & Sanctuaries** |
+| <img src="https://res.cloudinary.com/dyp6zbyjd/image/upload/v1777722143/Screenshot_2026-05-02_165232_wlfdqi.png" width="400" alt="Map Operations Grid"/> | <img src="https://res.cloudinary.com/dyp6zbyjd/image/upload/v1777722143/Screenshot_2026-05-02_165400_y0qcuz.png" width="400" alt="Field-Ready Public Utility"/> |
+
+*(Note: Please save the 4 screenshot images you provided into a `screenshots` folder in your project root with the names `hero_section.png`, `live_operations.png`, `operations_grid.png`, and `public_utility.png` so they load perfectly!)*
 
 
 ### 🌟 What Makes This Special?
@@ -67,32 +75,13 @@ This project implements the complete design system created in Stitch, featuring:
 
 ## ❓ Problem Statement
 
-### The Emergency Gap
+**Why do citizens and animal lovers struggle to find reliable and immediate help for stray animals in distress?**
 
-**Severity Score:** 8/10 | **Frequency Score:** 10/10 | **Overall Itch Score:** 76/100
+**76 / 100** (Overall Itch Score)
 
-When compassionate citizens encounter injured, trapped, or sick stray animals, they face a critical **information asymmetry problem**:
+**Emergency Services / Animal Welfare**
 
-#### 🔴 Current Pain Points
-
-1. **No Centralized Directory** — Scattered information across multiple sources
-2. **Time-Critical Delays** — Manual searching wastes precious minutes during emergencies
-3. **Outdated Information** — Phone numbers and addresses frequently change
-4. **Geographic Irrelevance** — Search results often show services too far away
-5. **Cognitive Overload** — High-stress situations make decision-making difficult
-
-#### 📊 Real-World Impact
-
-- ⏱️ **Average delay:** 15-30 minutes searching for help
-- 😔 **Citizen helplessness:** 67% abandon rescue attempts due to information friction
-- 🐕 **Animal suffering:** Delayed response increases mortality and complications
-
-### Research-Backed Evidence
-
-Studies from platforms like **Buddy Animal Rescue** and **Let It Wag** demonstrate:
-- 🔺 **40% increase** in successful rescues with centralized systems
-- ⚡ **3x faster** response times with GPS-based routing
-- 💚 **Higher community engagement** through educational content
+When compassionate citizens encounter injured, trapped, or sick stray animals, they face a critical information asymmetry problem. They cannot find a centralized directory of rescue services and waste precious minutes manually searching for help during emergencies. Existing information is often outdated or geographically irrelevant, leading to high-stress decision-making. No unified platform connects citizens with verified NGOs, veterinary hospitals, and government helplines offering real-time location-based routing, instant contact, and proper guidance for emerging animal welfare emergencies.
 
 ---
 
